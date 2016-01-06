@@ -24,10 +24,9 @@ public class Cylindre extends AObj{
 	}
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId, Id id) {
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		ori.transformation(center, rot);
 		dir.transformation(null, rot);
-		id.id = this.id;
 		double dx = dir.getX();
 		double dy = dir.getY();
 		double ox = ori.getX();

@@ -1,19 +1,11 @@
 package main.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import main.common.Color;
 import main.common.Vecteur;
 import main.object.AObj;
-import main.object.Id;
-import main.object.Triangle;
-import main.texture.TextureCoord;
 
 public class Util {
 		public static double near(Collection<Double> list, boolean same){
@@ -39,11 +31,10 @@ public class Util {
 		if (normal.mult(vLight) < 0.)
 			return false;
 		double distTmp;
-		Id id = new Id();
 		for (AObj object : objects) {
 			oriTmp.val(intersection);
 			dirTmp.val(vLight);
-			distTmp = object.primitive(oriTmp, dirTmp, current, id);
+			distTmp = object.primitive(oriTmp, dirTmp, current);
 			if (distTmp > 0. && distTmp < dist)
 				return false;
 		}
@@ -83,48 +74,6 @@ public class Util {
 				}
 			}
 		}
-	}
-	
-	public static List<AObj> parseObjectFile(File file) throws IOException {
-		List<AObj> triangles = new ArrayList<AObj>();
-		List<Vecteur> sommet = new ArrayList<Vecteur>();
-		List<Vecteur> normal = new ArrayList<Vecteur>();
-		List<TextureCoord> texture = new ArrayList<TextureCoord>();
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String line;
-		String[] tab;
-		while ((line = br.readLine()) != null) {
-			line = line.trim();
-			if (line.isEmpty() || line.startsWith("#"))
-				continue;
-			tab = line.split("\\s+");
-			switch (tab[0]) {
-				case "v" :
-					sommet.add(new Vecteur(tab[1], tab[2], tab[3]));
-					break;
-				case "vn" :
-					normal.add(new Vecteur(tab[1], tab[2], tab[3]));
-					break;	
-				case "vt" :
-					texture.add(new TextureCoord(tab[1], tab[2]));
-					break;
-				case "f" :
-					String[][] face = new String[3][];
-					for (int i = 1; i < 4; i++)
-						face[i - 1] = tab[i].split("/");
-					Triangle triangle = new Triangle(sommet.get(Integer.parseInt(face[0][0])-1), sommet.get(Integer.parseInt(face[1][0])-1), sommet.get(Integer.parseInt(face[2][0]) -1));
-					if (!face[0][2].isEmpty())
-						triangle.setNormal(normal.get(Integer.parseInt(face[0][2])-1), normal.get(Integer.parseInt(face[1][2])-1), normal.get(Integer.parseInt(face[2][2]) -1));
-					triangles.add(triangle);
-					break;
-				default :
-					System.out.println(tab[0]);
-					throw new IOException();
-			}
-		}
-		br.close();
-		return triangles;
-				//new Obj3D(triangle);
 	}
 	
 }

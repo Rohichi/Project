@@ -19,12 +19,11 @@ public class Plan extends AObj{
 	}
 
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId, Id id) {
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		if (lastId == this.id)
 			return -1;
 		ori.transformation(center, rot);
 		dir.transformation(null, rot);
-		id.id = this.id;
 		return Solver.solve(dir.getZ(), ori.getZ());	
 	}
 

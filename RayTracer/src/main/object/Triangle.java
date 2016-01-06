@@ -24,10 +24,9 @@ public class Triangle extends AObj{
 	}
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId, Id id) {
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		if (lastId == this.id)
 			return -1;
-		id.id = this.id;
 		Vecteur p = dir.crossmultClone(e2);
 		double det = e1.mult(p);
 		if (det > -EPSILON && det < EPSILON)

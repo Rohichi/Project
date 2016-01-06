@@ -24,11 +24,10 @@ public class Cone extends AObj{
 	}
 
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId, Id id) {
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		ori.transformation(center, rot);
 		dir.transformation(null, rot);
 		double t = Math.pow(Math.tan(alpha), 2);
-		id.id = this.id;
 		double dx = dir.getX();
 		double dy = dir.getY();
 		double dz = dir.getZ();

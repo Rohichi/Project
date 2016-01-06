@@ -9,7 +9,6 @@ import main.common.Env;
 import main.common.Ray;
 import main.common.Vecteur;
 import main.object.AObj;
-import main.object.Id;
 import main.shader.AShader;
 
 public class BasicLauncher extends ALauncher {
@@ -28,21 +27,18 @@ public class BasicLauncher extends ALauncher {
 		AObj	near;
 		Vecteur tmpOri = new Vecteur();
 		Vecteur tmpDir = new Vecteur();
-		Id id = new Id();
-		int currentId = -1;
 		
 		near = null;
 		min = -1;
 		for (AObj obj : objects) {
 			tmpOri.val(ori);
 			tmpDir.val(dir);
-			dist = obj.primitive(tmpOri, tmpDir, lastId, id);
+			dist = obj.primitive(tmpOri, tmpDir, lastId);
 			if (dist <= 0.)
 				continue;
 			if (near == null || min > dist) {
 				min = dist;
 				near = obj;
-				currentId = id.id;
 			}
 		}
 		if (near == null) {
@@ -54,7 +50,7 @@ public class BasicLauncher extends ALauncher {
 			Vecteur normal = new Vecteur();
 			Color color = new Color();
 			near.color(tmpOri.val(intersection), color);
-			near.normal(tmpOri.val(intersection), dir, currentId, normal);
+			near.normal(tmpOri.val(intersection), dir, near.id, normal);
 			dir.scal(-1);
 			shader.getColor(ori, dir, intersection, normal, near, objects, color, ret);
 			ret.mult(near.direct);
@@ -64,13 +60,15 @@ public class BasicLauncher extends ALauncher {
 					if (rebond != Env.rebond) {
 						tmpOri.val(intersection);
 						tmpDir.val(normal).scal(normal.mult(dir) * 2).sub(dir);
-						getColor(tmpOri, tmpDir, cTmp, currentId, rebond + 1);
+						getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);
 					}
 					else
 						cTmp.val(0,0,0);
 					cTmp.mult(near.mirroir);
 					ret.add(cTmp);
 				}
+				
+				//TODO problem refraction (peu être soucis de clipping)
 				if (near.refraction != 0.) {
 					if (rebond != Env.rebond) {
 						tmpOri.val(intersection);
@@ -81,21 +79,20 @@ public class BasicLauncher extends ALauncher {
 							n2 = near.indRefra;
 						}
 						else { 
-							n1 = near.indRefra;
-							n2 = Env.refra;
-							/*if (milieu.lastElement().id != near.id)
+							n1 = milieu.lastElement().indRefra;
+							if (milieu.lastElement().id != near.id)
 								n2 = near.indRefra;
 							else
-								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : Env.refra);*/
+								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : Env.refra);
 						}
 						double cos1 = normal.mult(dir);
 						double cos2 = 1 - Math.pow(n1 / n2, 2) * (1 - cos1 * cos1);
 						if (cos2 < 0.) {
 							tmpDir.val(normal).scal(2 * cos1).sub(dir).normal();
-							getColor(tmpOri, tmpDir, cTmp, currentId, rebond + 1);
+							getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);
 						}
 						else {
-							if (milieu.empty())
+							if (milieu.empty() || milieu.lastElement().id != near.id)
 								milieu.push(near);
 							else
 								milieu.pop();
@@ -103,7 +100,7 @@ public class BasicLauncher extends ALauncher {
 							tmpDir.val(normal).scal(n1 * cos1 / n2 - cos2);
 							dir.scal(n1 / n2);
 							tmpDir.sub(dir);
-							getColor(tmpOri, tmpDir, cTmp, currentId, rebond + 1);	
+							getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);	
 						}					
 					}
 					else

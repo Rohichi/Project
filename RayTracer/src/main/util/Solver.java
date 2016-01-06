@@ -58,44 +58,33 @@ public class Solver {
 		return ret;
 	}
 	
-	/*static public Collection<Double> solve(double a, double b, double c, double d, double e) {
+	
+	//TODO Test !
+	static public Collection<Double> solve(double a, double b, double c, double d, double e) {
+		if (a == 0.)
+			return solve(b,c,d,e);
 		Collection<Double> ret;
-		b /= a;
-		c /= a;
-		d /= a;
-		e /= a;
-		a = 1;
 		if (e == 0) {
 			ret = solve(a, b, c, d);
 			ret.add(Double.valueOf(0));
 			return ret;
 		}
-		double b2 = (3*b*b / 8 - c) /2; 
-		double b1 = 3 * Math.pow(b, 4) / 256 - b*b*c/16 + b*d/4 - e;
-		double b0 = b1*b2 - Math.pow(b*b*b/16 - b*c/4 + d/2, 2); 
-		Collection<Double> tmp = solve(1, b2, b1, b0);
-		if (tmp.isEmpty())
-			return new TreeSet<Double>();
-		double z0 = 0;
-		ret = new TreeSet<Double>();
-		for (Double racine : tmp) {
-			z0 = racine.doubleValue();
-			break ;
-		}
-		double delta = 2 * (z0 + b2);
-		double delta2 = 0;
-		if (delta < 0)
-			return ret;
-		else if (delta == 0) {
-			delta2 = z0*z0 + b1;
-			if (delta2 < 0)
-				return ret;
-			delta2 = Math.sqrt(delta2);
-		}
-		else 
-			delta2 = Math.sqrt((b2*b1 - b0)/ delta);
-		
-		
+		b /= a;
+		c /= a;
+		d /= a;
+		e /= a;
+		a = 1;
+		double p = (-3*b*b / 8 + c); 
+		double q =  Math.pow(b / 2, 3) - b*c/2 + d;
+		double r = -3 * Math.pow(b / 4, 2) + c * Math.pow(b/4, 2) - b*d/4 + e; 
+		double y0 = solve(8, -4*p, -8*r,4*r*p-q*q).iterator().next();
+		double a0 = 2*y0 - p;
+		if (a0 < 0)
+			return (new TreeSet<Double>());
+		a0 = Math.sqrt(a0);
+		double b0 = (a0 == 0 ? y0*y0-r : -q/(2*a0));
+		ret = solve(1, a0, y0 + b0);
+		ret.addAll(solve(1, -a0, y0 - b0));
 		return ret;
-	}*/
+	}
 }

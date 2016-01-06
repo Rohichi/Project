@@ -33,7 +33,6 @@ import main.rendu.Image;
 import main.shader.AShader;
 import main.shader.BlinnPhongShader;
 import main.texture.FileTexture;
-import main.util.Util;
 
 public class Main {
 	public static void main(String[] args) {
@@ -78,13 +77,13 @@ public class Main {
 			tmp.mirroir = 0.2;
 			tmp.direct = 0.8;
 			list.add(tmp);
-/*			
+		
 			tmp = new Cylindre(new Vecteur(0, -10 ,-5), 8, new Color(255,0,0), 1, 128, new Vecteur(0, -45, 0));
 			tmp.refraction = 1;
 			tmp.direct = 0;
-			tmp.indRefra = 1.15;
+			tmp.indRefra = 1.5;
 			list.add(tmp);
-*/			
+		
 			tmp = new Cone(new Vecteur(20, 10 ,-10), 25, new Color(100,100,100), 1, 2048, new Vecteur(0, 45, 0));
 			tmp.mirroir = 0.9;
 			tmp.direct = 0.1;

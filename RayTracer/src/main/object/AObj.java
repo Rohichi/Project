@@ -58,7 +58,7 @@ public abstract class AObj {
 	}
 	
 
-	public abstract double primitive(Vecteur ori, Vecteur dir, int lastId, Id id);
+	public abstract double primitive(Vecteur ori, Vecteur dir, int lastId);
 	public abstract void getTextureColor(Vecteur pos, Color c);
 	public abstract void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret);
 }

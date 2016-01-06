@@ -24,9 +24,8 @@ public class Sphere extends AObj{
 	}
 
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId, Id id) {
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		ori.sub(center);
-		id.id = this.id;
 		Collection<Double> sol = Solver.solve(dir.mult(dir), 2 * ori.mult(dir), ori.mult(ori) - r*r);
 		if (sol.size() < 2)
 			return -1;
