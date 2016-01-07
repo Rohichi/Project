@@ -1,22 +1,17 @@
 package main.launcher;
 
-import java.util.List;
 import java.util.Stack;
 
-import main.camera.ACamera;
 import main.common.Color;
-import main.common.Env;
 import main.common.Ray;
 import main.common.Vecteur;
 import main.object.AObj;
-import main.shader.AShader;
 
 public class BasicLauncher extends ALauncher {
-	Ray			ray;
-	Stack<AObj> milieu;
+	private Ray	ray;
+	private Stack<AObj> milieu;
 	
-	public BasicLauncher (List<AObj> objects, AShader shader, ACamera camera) {
-		super(objects, shader, camera);
+	public BasicLauncher () {
 		milieu = new Stack<AObj>();
 		ray = new Ray();
 	}
@@ -50,17 +45,17 @@ public class BasicLauncher extends ALauncher {
 			Vecteur normal = new Vecteur();
 			Color color = new Color();
 			near.color(tmpOri.val(intersection), color);
-			near.normal(tmpOri.val(intersection), dir, near.id, normal);
+			near.normal(tmpOri.val(intersection), dir, near.getId(), normal);
 			dir.scal(-1);
 			shader.getColor(ori, dir, intersection, normal, near, objects, color, ret);
 			ret.mult(near.direct);
 			if (near.mirroir != 0. || near.refraction != 0.) {
 				Color cTmp = new Color();		
 				if (near.mirroir != 0.) {
-					if (rebond != Env.rebond) {
+					if (rebond != env.rebond) {
 						tmpOri.val(intersection);
 						tmpDir.val(normal).scal(normal.mult(dir) * 2).sub(dir);
-						getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);
+						getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);
 					}
 					else
 						cTmp.val(0,0,0);
@@ -70,29 +65,29 @@ public class BasicLauncher extends ALauncher {
 				
 				//TODO problem refraction (peu être soucis de clipping)
 				if (near.refraction != 0.) {
-					if (rebond != Env.rebond) {
+					if (rebond != env.rebond) {
 						tmpOri.val(intersection);
 						double n1;
 						double n2;
 						if (milieu.isEmpty()) {
-							n1 = Env.refra;
+							n1 = env.refra;
 							n2 = near.indRefra;
 						}
 						else { 
 							n1 = milieu.lastElement().indRefra;
-							if (milieu.lastElement().id != near.id)
+							if (milieu.lastElement().getId() != near.getId())
 								n2 = near.indRefra;
 							else
-								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : Env.refra);
+								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : env.refra);
 						}
 						double cos1 = normal.mult(dir);
 						double cos2 = 1 - Math.pow(n1 / n2, 2) * (1 - cos1 * cos1);
 						if (cos2 < 0.) {
 							tmpDir.val(normal).scal(2 * cos1).sub(dir).normal();
-							getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);
+							getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);
 						}
 						else {
-							if (milieu.empty() || milieu.lastElement().id != near.id)
+							if (milieu.empty() || milieu.lastElement().getId() != near.getId())
 								milieu.push(near);
 							else
 								milieu.pop();
@@ -100,7 +95,7 @@ public class BasicLauncher extends ALauncher {
 							tmpDir.val(normal).scal(n1 * cos1 / n2 - cos2);
 							dir.scal(n1 / n2);
 							tmpDir.sub(dir);
-							getColor(tmpOri, tmpDir, cTmp, near.id, rebond + 1);	
+							getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);	
 						}					
 					}
 					else
@@ -109,7 +104,7 @@ public class BasicLauncher extends ALauncher {
 					ret.add(cTmp);
 				}
 			}
-			ret.id = near.id;
+			ret.id = near.getId();
 		}
 	}
 	
@@ -122,7 +117,10 @@ public class BasicLauncher extends ALauncher {
 	
 	@Override
 	public ALauncher copy(){
-		return new BasicLauncher(objects, shader.copy(), camera);
+		ALauncher ret = new BasicLauncher();
+		ret.init(objects, shader.copy(), camera);
+		ret.setEnv(env);
+		return ret;
 	}
 	
 }

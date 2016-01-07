@@ -10,23 +10,14 @@ import main.util.Util;
 public class Cylindre extends AObj{
 	public double r;
 	
-	public Cylindre(Vecteur center, double r, Color c){
-		this(center, r, c, 1, 128);
-	}
-	
-	public Cylindre(Vecteur center, double r, Color c, double metal, double rugosite){
-		this(center, r, c, metal, rugosite, new Vecteur(0, 0, 0));
-	}
-	
-	public Cylindre(Vecteur center, double r, Color c, double metal, double rugosite, Vecteur rot) {
-		super(center, c, metal, rugosite, rot);
-		this.r = r;
+	public Cylindre() {
+		r = 1.;
 	}
 	
 	@Override
 	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
-		ori.transformation(center, rot);
-		dir.transformation(null, rot);
+		ori.transformation(center, rotation);
+		dir.transformation(null, rotation);
 		double dx = dir.getX();
 		double dy = dir.getY();
 		double ox = ori.getX();
@@ -45,9 +36,9 @@ public class Cylindre extends AObj{
 
 	@Override
 	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
-		pos.transformation(center, rot);
+		pos.transformation(center, rotation);
 		pos.setY(0);
-		pos.reverseRotation(rot);
+		pos.reverseRotation(rotation);
 		ret.val(pos).checkNormal(dir);
 	}
 

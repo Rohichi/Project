@@ -2,9 +2,9 @@ package main.common;
 
 public class Vecteur {
 
-	double x;
-	double y;
-	double z;
+	public double x;
+	public double y;
+	public double z;
 	
 	public Vecteur() {
 		x = 0;

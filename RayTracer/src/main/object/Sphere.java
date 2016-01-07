@@ -8,25 +8,17 @@ import main.util.Solver;
 import main.util.Util;
 
 public class Sphere extends AObj{
-	public double r;
+	public double rayon;
 	
-	public Sphere(Vecteur center, double r, Color c){
-		this(center, r, c, 1, 128);
-	}
-	
-	public Sphere(Vecteur center, double r, Color c, double metal, double rugosite){
-		this(center, r, c, metal, rugosite, new Vecteur(0, 0, 0));
-	}
-
-	public Sphere(Vecteur center, double r, Color c, double metal, double rugosite, Vecteur rot) {
-		super(center, c, metal, rugosite, rot);
-		this.r = r;
+	public Sphere() {
+		super();
+		rayon = 1;
 	}
 
 	@Override
 	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		ori.sub(center);
-		Collection<Double> sol = Solver.solve(dir.mult(dir), 2 * ori.mult(dir), ori.mult(ori) - r*r);
+		Collection<Double> sol = Solver.solve(dir.mult(dir), 2 * ori.mult(dir), ori.mult(ori) - rayon*rayon);
 		if (sol.size() < 2)
 			return -1;
 		return Util.near(sol, lastId == this.id);
@@ -42,7 +34,7 @@ public class Sphere extends AObj{
 			i = (i == texture.getHeight() ? 0 : i);
 		}
 		else {
-			z *= Math.PI * r;
+			z *= Math.PI * rayon;
 			double tmp = (double)((int)(z / texture.getSizeY()));
 			if ((int)tmp > texture.getRepeatY())
 				return (-1);
@@ -64,7 +56,7 @@ public class Sphere extends AObj{
 			j = (j == texture.getWidth() ? 0 : j);
 		}
 		else {
-			u *= r;
+			u *= rayon;
 			double tmp = (double)((int)(u / texture.getSizeX()));
 			if ((int)tmp > texture.getRepeatX())
 				return (-1);
@@ -75,7 +67,7 @@ public class Sphere extends AObj{
 	
 	@Override
 	public void getTextureColor(Vecteur pos, Color c) {
-		pos.transformation(center, rot);
+		pos.transformation(center, rotation);
 		Vecteur tmp = new Vecteur(pos);
 		int i = getI(tmp);
 		int j = getJ(pos);
@@ -87,8 +79,8 @@ public class Sphere extends AObj{
 
 	@Override
 	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
-		pos.transformation(center, rot);
-		pos.reverseRotation(rot);
+		pos.transformation(center, rotation);
+		pos.reverseRotation(rotation);
 		
 		ret.val(pos).checkNormal(dir);
 	}

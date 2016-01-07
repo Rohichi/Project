@@ -9,42 +9,46 @@ import javax.imageio.ImageIO;
 import main.common.Color;
 
 public class FileTexture extends ATexture{
-	BufferedImage img;
-	int repeatX;
-	int repeatY;
-	double sizeX;
-	double sizeY;
-	boolean extendX;
-	boolean extendY;
+	private BufferedImage img;
+	public String filename;
+	public int repeatX;
+	public int repeatY;
+	public double sizeX;
+	public double sizeY;
+	public boolean extendX;
+	public boolean extendY;
 	
-	public FileTexture (String filename) throws IOException {
-		set(filename, 1, 1, 0, 0, false, false);
-	}
+	public FileTexture (String object){
+		filename = null;
+		if (object == "main.object.Plan") {
+			repeatX = -1;
+			repeatY = -1;
+			extendX = false;
+			extendY = false;
+			sizeX = 10;
+			sizeY = 10;
+		}
+		else if (object == "main.object.Sphere") {
+			repeatX = 1;
+			repeatY = 1;
+			extendX = true;
+			extendY = true;
+			sizeX = 10;
+			sizeY = 10;
+		}
+		else {
+			repeatX = 1;
+			repeatY = 1;
+			extendX = false;
+			extendY = false;
+			sizeX = 10;
+			sizeY = 10;
+		}
+	}	
 	
-	public FileTexture (String filename, int repeatX, int repeatY) throws IOException {
-		set(filename, repeatX, repeatY, 0, 0, false, false);
-	}
-
-	public FileTexture (String filename, int repeatX, int repeatY, boolean extendX, boolean extendY) throws IOException {
-		set(filename, repeatX, repeatY, 0, 0, extendX, extendY);
-	}
 	
-	public FileTexture (String filename, int repeatX, int repeatY, double sizeX, double sizeY) throws IOException {
-		set(filename, repeatX, repeatY, sizeX, sizeY, false, false);		
-	}
-	
-	public FileTexture (String filename, int repeatX, int repeatY, double sizeX, double sizeY, boolean extendX, boolean extendY) throws IOException {
-		set(filename, repeatX, repeatY, sizeX, sizeY, extendX, extendY);
-	}
-	
-	private void set(String filename, int repeatX, int repeatY, double sizeX, double sizeY, boolean extendX, boolean extendY) throws IOException {
+	public void init() throws IOException{
 		img = ImageIO.read(new File("textures" +  File.separator + filename));
-		this.repeatX = repeatX;
-		this.repeatY = repeatY;
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-		this.extendX = extendX;
-		this.extendY = extendY;		
 	}
 	
 	@Override

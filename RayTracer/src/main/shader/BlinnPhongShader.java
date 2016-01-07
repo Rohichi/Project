@@ -9,20 +9,28 @@ import main.object.AObj;
 import main.util.Util;
 
 public class BlinnPhongShader extends AShader {
-	Vecteur vLight;
-	Vecteur h;
-	Vecteur vTmp;
+	private Vecteur vLight;
+	private Vecteur h;
+	private Vecteur vTmp;
+	private Color cTmp;
+	private Color tmpDiffuse;
+	private Color tmpSpeculaire;
 	
-	Color cTmp;
-	Color coefAmbiant;
-	Color coefDiffuse;
-	Color coefSpeculaire;
+	private Color coefAmbiant;
+	private Color coefDiffuse;
+	private Color coefSpeculaire;
+	
+	public Color ambiant;
+	
+	public BlinnPhongShader() {
+		ambiant = null;
+	}
 
-	Color tmpDiffuse;
-	Color tmpSpeculaire;
-	
-	public BlinnPhongShader(List<Light> lights, Color bg, Color ambiant) {
-		super(lights, bg, ambiant);
+	public void init(List<Light> lights) {
+		super.init(lights);
+		
+		ambiant = (ambiant == null ? Color.getCoef(0.2, 0.2, 0.2) : ambiant);
+
 		vLight = new Vecteur();
 		h = new Vecteur();
 		vTmp = new Vecteur();
@@ -54,7 +62,7 @@ public class BlinnPhongShader extends AShader {
 		for (Light light : lights) {
 			dist = vLight.val(light.pos).sub(intersection).norme();
 			vLight.normal();
-			if (Util.checkVisibility(current.id, objects, vLight, dist, intersection, normal, vTmp, h)) {
+			if (Util.checkVisibility(current.getId(), objects, vLight, dist, intersection, normal, vTmp, h)) {
 				atte = Util.attenuation(dist, light.attenuation);		
 				diffuse(light.diffuse, normal, tmpDiffuse);
 				tmpDiffuse.mult(light.color);
@@ -78,7 +86,11 @@ public class BlinnPhongShader extends AShader {
 
 	@Override
 	public AShader copy() {
-		return new BlinnPhongShader(lights, bg, ambiant);
+		BlinnPhongShader ret = new BlinnPhongShader();
+		ret.ambiant = ambiant;
+		ret.bg = bg;
+		ret.init(lights);
+		return ret;
 	}
 
 }

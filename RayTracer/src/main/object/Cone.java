@@ -1,5 +1,6 @@
 package main.object;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import main.common.Color;
@@ -10,23 +11,19 @@ import main.util.Util;
 public class Cone extends AObj{
 	public double alpha;
 	
-	public Cone(Vecteur center, double alpha, Color c){
-		this(center, alpha, c, 1, 128);
+	public Cone() {
+		alpha = 45;
 	}
 	
-	public Cone(Vecteur center, double alpha, Color c, double metal, double rugosite){
-		this(center, alpha, c, metal, rugosite, new Vecteur(0, 0, 0));
+	public void init() throws NumberFormatException, IOException {
+		super.init();
+		alpha = alpha * Math.PI / 180.;
 	}
-
-	public Cone(Vecteur center, double alpha, Color c, double metal, double rugosite, Vecteur rot) {
-		super(center, c, metal, rugosite, rot);
-		this.alpha = alpha * Math.PI / 180.;
-	}
-
+	
 	@Override
 	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
-		ori.transformation(center, rot);
-		dir.transformation(null, rot);
+		ori.transformation(center, rotation);
+		dir.transformation(null, rotation);
 		double t = Math.pow(Math.tan(alpha), 2);
 		double dx = dir.getX();
 		double dy = dir.getY();
@@ -44,15 +41,15 @@ public class Cone extends AObj{
 
 	@Override
 	public void getTextureColor(Vecteur pos, Color c) {
-		pos.transformation(center, rot);
+		pos.transformation(center, rotation);
 		
 	}
 
 	@Override
 	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
-		pos.transformation(center, rot);
+		pos.transformation(center, rotation);
 		pos.setZ(-pos.getZ() * Math.pow(Math.tan(alpha), 2));
-		pos.reverseRotation(rot);
+		pos.reverseRotation(rotation);
 		ret.val(pos).checkNormal(dir);
 	}
 }

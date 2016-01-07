@@ -6,24 +6,12 @@ import main.util.Solver;
 
 public class Plan extends AObj{
 
-	public Plan(Vecteur center, Color c){
-		this(center, c, 1, 128);
-	}
-	
-	public Plan(Vecteur center, Color c, double metal, double rugosite){
-		this(center, c, metal, rugosite, new Vecteur(0, 0, 0));
-	}
-	
-	public Plan(Vecteur center, Color c, double metal, double rugosite, Vecteur rot) {
-		super(center, c, metal, rugosite, rot);
-	}
-
 	@Override
 	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
 		if (lastId == this.id)
 			return -1;
-		ori.transformation(center, rot);
-		dir.transformation(null, rot);
+		ori.transformation(center, rotation);
+		dir.transformation(null, rotation);
 		return Solver.solve(dir.getZ(), ori.getZ());	
 	}
 
@@ -51,7 +39,7 @@ public class Plan extends AObj{
 	
 	@Override
 	public void getTextureColor(Vecteur pos, Color c) {
-		pos.transformation(center, rot);
+		pos.transformation(center, rotation);
 		int i = getInd(pos.getY(), texture.getSizeY(), texture.getRepeatY(), texture.getHeight());
 		int j = getInd(pos.getX(), texture.getSizeX(), texture.getRepeatX(), texture.getWidth());
 		if (j < 0 || j >= texture.getWidth() || i < 0 || i >= texture.getHeight())
@@ -62,7 +50,7 @@ public class Plan extends AObj{
 
 	@Override
 	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
-		ret.val(0,0,1).reverseRotation(rot).checkNormal(dir);
+		ret.val(0,0,1).reverseRotation(rotation).checkNormal(dir);
 	}
 
 }

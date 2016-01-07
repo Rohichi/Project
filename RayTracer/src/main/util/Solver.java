@@ -77,7 +77,11 @@ public class Solver {
 		double p = (-3*b*b / 8 + c); 
 		double q =  Math.pow(b / 2, 3) - b*c/2 + d;
 		double r = -3 * Math.pow(b / 4, 2) + c * Math.pow(b/4, 2) - b*d/4 + e; 
-		double y0 = solve(8, -4*p, -8*r,4*r*p-q*q).iterator().next();
+		double y0 = 0;
+		Collection<Double> subret = solve(8, -4*p, -8*r,4*r*p-q*q);
+		for(Double x0 : subret) {
+			y0 = x0;
+		}
 		double a0 = 2*y0 - p;
 		if (a0 < 0)
 			return (new TreeSet<Double>());

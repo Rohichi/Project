@@ -1,21 +1,28 @@
 package main.common;
 
 public class Env {
-	public static Color[][] image;
-	public static int nbthread;
-	public static String file;
-	public static int rebond;
-	public static double refra;
-	
-	public static void init(int nbthread, String file, int width, int height, int rebond) {
-		Env.nbthread = nbthread;
-		image = new Color[height][width];
-		Env.file = file;
-		Env.rebond = rebond;
+	public Color[][] image;
+	public int nbthread;
+	public String file;
+	public int rebond;
+	public double refra;
+	public int width;
+	public int height;
+		
+	public Env() {
+		width = 800;
+		height = 600;
+		nbthread = 1;
+		file = null;
+		rebond = 1;
 		refra = 1.;
 	}
 	
-	public static void setImage(int x, int y, Color c) {
+	public void init(){
+		image = new Color[height][width];
+	}
+	
+	public void setImage(int x, int y, Color c) {
 		image[x][y] = c;
 	}
 	

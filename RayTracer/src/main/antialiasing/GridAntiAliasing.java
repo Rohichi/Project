@@ -1,38 +1,40 @@
-package main.launcher;
+package main.antialiasing;
 
-import main.camera.ACamera;
 import main.camera.BasicCamera;
 import main.common.Color;
 import main.common.Ray;
+import main.launcher.ALauncher;
 
-public class GridAntiAliasing extends ALauncher{
-	ALauncher launcher;
-	BasicCamera subcamera;
-	Ray ray;
-	int size;
-	Color[][] grid;
+public class GridAntiAliasing extends AAntialiasing{
+	public int gridSide;
 	
-	public GridAntiAliasing(ALauncher launcher, int size, ACamera camera) {
-		super(null, null, null);
-		this.camera = camera;
-		this.launcher = launcher;
-		this.size = size;
+	private BasicCamera subcamera;
+	private Ray ray;
+	private Color[][] grid;
+	
+	public GridAntiAliasing() {
+		gridSide = 1;
+	}
+
+	@Override
+	public void init() {
+		this.camera = launcher.getCamera();
 		subcamera = new BasicCamera();
-		grid = new Color[size][size];
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
+		grid = new Color[gridSide][gridSide];
+		for(int i = 0; i < gridSide; i++) {
+			for(int j = 0; j < gridSide; j++) {
 				grid[i][j] = new Color();
 			}
 		}
-		ray = new Ray();
+		ray = new Ray();		
 	}
-
+	
 	private void getMedColor(Color c) {
 		c.val(0, 0, 0);
 		//HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		//Integer tmp;
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
+		for(int i = 0; i < gridSide; i++) {
+			for(int j = 0; j < gridSide; j++) {
 				c.add(grid[i][j]);
 			/*	tmp = map.get(Integer.valueOf(grid[i][j].id));
 				if (tmp == null)
@@ -51,21 +53,21 @@ public class GridAntiAliasing extends ALauncher{
 				id = entry.getKey().intValue();
 			}
 		}*/
-		c.mult(1. / (size*size));
+		c.mult(1. / (gridSide*gridSide));
 		//c.id = id;
 	}
 	
 	@Override
 	public void launch(int x, int y, Color c) {
 		camera.getRay(x, y, ray);
-		subcamera.u.val(camera.getU()).scal(1./size);
-		subcamera.v.val(camera.getV()).scal(1./size);
+		subcamera.getU().val(camera.getU()).scal(1./gridSide);
+		subcamera.getV().val(camera.getV()).scal(1./gridSide);
 		subcamera.pos.val(camera.pos);
-		ray.dir.val(subcamera.u).add(subcamera.v).scal(-1/2);
-		subcamera.ori = ray.ori.add(ray.dir);
-		launcher.camera = subcamera;
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
+		ray.dir.val(subcamera.getU()).add(subcamera.getV()).scal(-1/2);
+		subcamera.setOri(ray.ori.add(ray.dir));
+		launcher.setCamera(subcamera);
+		for(int i = 0; i < gridSide; i++) {
+			for(int j = 0; j < gridSide; j++) {
 				launcher.launch(i, j, grid[i][j]);
 			}
 		}
@@ -74,7 +76,11 @@ public class GridAntiAliasing extends ALauncher{
 	
 	@Override
 	public ALauncher copy() {
-		return new GridAntiAliasing(launcher.copy(), size, camera);
+		GridAntiAliasing ret = new GridAntiAliasing();
+		ret.gridSide = gridSide;
+		ret.setLauncher(launcher.copy());
+		ret.init();
+		return ret;
 	}
 		
 }

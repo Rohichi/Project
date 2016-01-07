@@ -1,15 +1,19 @@
 package main.object;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import main.common.Color;
-import main.common.Env;
 import main.common.Vecteur;
 import main.texture.ATexture;
 
 public abstract class AObj {
+
 	static int nbid = 0;
-	public int id;
+	
+	protected int id;
 	public Vecteur center;
-	public Vecteur rot;
+	public Vecteur rotation;
 	public ATexture texture;
 	public Color color;
 	
@@ -25,29 +29,50 @@ public abstract class AObj {
 	public double refraction;
 	public double indRefra;
 	
-	public AObj(Vecteur center, Color color, double metal, double rugosite, Vecteur rot){
-		this();
-		this.center = center;
-		this.color = color;
-		this.metal = metal;
-		this.rugosite = rugosite;
-		this.rot = rot.scal(Math.PI / 180.);
-	}
-	
 	public AObj(){
-		indRefra = Env.refra;
-		coefAmbiant = Color.getCoef(1, 1, 1);
-		coefDiffuse = Color.getCoef(1, 1, 1);
-		coefSpeculaire = Color.getCoef(1, 1, 1);
+		id = nbid++;
+		
+		center = null;
+		rotation = null;
 		texture = null;
+		color = null;
+
+		coefAmbiant = null;
+		coefSpeculaire = null;
+		coefDiffuse = null;
+		
+		rugosite = 1;
+		metal = 0;
+
 		direct = 1;
 		mirroir = 0;
 		refraction = 0;
-		indRefra = Env.refra;
-		id = nbid++;
-		rot = null;
-		rugosite = 1;
-		metal = 0;
+		indRefra = 1;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	
+	public void init() throws FileNotFoundException, NumberFormatException, IOException {
+		if (center == null)
+			center = new Vecteur(0, 0, 0);
+		
+		if (rotation == null)
+			rotation = new Vecteur(0, 0, 0);
+		else 
+			rotation.scal(Math.PI / 180.);
+		if (color == null)
+			color = new Color(255, 255, 255);
+		else
+			color.mult(1/255.);
+		if (coefAmbiant == null)
+			coefAmbiant = Color.getCoef(1, 1, 1);
+		if (coefDiffuse == null)
+			coefDiffuse = Color.getCoef(1, 1, 1);
+		if (coefSpeculaire == null)
+			coefSpeculaire = Color.getCoef(1, 1, 1);
+		direct = 1 - mirroir - refraction;
 	}
 	
 	public void color(Vecteur pos, Color c) {

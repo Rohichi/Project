@@ -13,13 +13,19 @@ import main.texture.TextureCoord;
 
 public class Obj3D extends AObj{
 	List<AObj> triangles;
-	
-	public Obj3D(File file) throws NumberFormatException, IOException {
+	String filename;
+		
+	public Obj3D(){
+		filename = null;
+	}
+
+	public void init() throws NumberFormatException, IOException {
+		super.init();
 		triangles = new ArrayList<AObj>();
 		List<Vecteur> sommet = new ArrayList<Vecteur>();
 		List<Vecteur> normal = new ArrayList<Vecteur>();
 		List<TextureCoord> texture = new ArrayList<TextureCoord>();
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		String line;
 		String[] tab;
 		while ((line = br.readLine()) != null) {
