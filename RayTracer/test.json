@@ -1,0 +1,231 @@
+{
+    "env": {
+        "width": 1024,
+        "height": 768,
+        "nbthread": 1,
+        "file":"out",
+        "rebond":10
+    },
+    "camera" : {
+    	"type":"BasicCamera",
+    	"pos":{
+    			"x":0,
+    			"y":-80,
+    			"z":0
+    		},
+    	"dir":{
+    			"x":0,
+    			"y":1,
+    			"z":0
+    		},
+    	"up":{
+    			"x":0,
+    			"y":0,
+    			"z":1
+    		},
+    	"distance" : 20,
+    	"fovy" : 60	
+ 	},
+ 	"listLights": [
+ 		{
+ 			"pos":{
+    			"x":40,
+    			"y":-80,
+    			"z":0
+    		},
+    		"color": {
+    			"red":255,
+    			"green":255,
+    			"blue":255
+    		}
+ 		},
+ 		{
+  			"pos":{
+    			"x":-40,
+    			"y":-80,
+    			"z":1
+    		},
+    		"color": {
+    			"red":255,
+    			"green":255,
+    			"blue":255
+    		}
+ 		}
+ 	],
+    "listObjs" : [
+    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":0,
+    			"z":-20
+    		},
+    		"color": {
+    			"red":0,
+    			"green":255,
+    			"blue":0
+    		},
+    		"metal":0.1,
+    		"rugosite":1024,
+    		"mirroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"marble.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		}
+    	},
+    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":50,
+    			"z":0
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"brick.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		},
+    		"rotation": {
+    			"x":90,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+    	    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":60,
+    			"y":0,
+    			"z":0
+    		},
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":0
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"rotation": {
+    			"x":0,
+    			"y":90,
+    			"z":0
+    		}
+    	},
+    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":-60,
+    			"y":0,
+    			"z":0
+    		},
+    		"color": {
+    			"red":0,
+    			"green":255,
+    			"blue":0
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"rotation": {
+    			"x":0,
+    			"y":90,
+    			"z":0
+    		}
+    	},    	
+		{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":0,
+    			"z":60
+    		},
+    		"color": {
+    			"red":0,
+    			"green":0,
+    			"blue":255
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+		{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":-100,
+    			"z":0
+    		},
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":255
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"rotation": {
+    			"x":90,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+		{
+    		"type":"Sphere",
+    		"center": {
+    			"x":-35,
+    			"y":-10,
+    			"z":-10
+    		},
+    		"rayon":10,
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":255
+    		},
+    		"metal":0.2,
+    		"rugosite":2048,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":90
+    		},
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"earth.bmp" 		
+    		}
+    	},
+    	{
+    		"type":"Sphere",
+    		"center": {
+    			"x":40,
+    			"y":-10,
+    			"z":-10
+    		},
+    		"rayon":10,
+    		"color": {
+    			"red":128,
+    			"green":0,
+    			"blue":128
+    		},
+    		"metal":1,
+    		"rugosite":256,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":90
+    		},
+    		"mirroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"billard.bmp" 		
+    		}
+    	}		
+    ]
+}
