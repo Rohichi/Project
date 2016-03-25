@@ -29,6 +29,7 @@ public class BasicLauncher extends ALauncher {
 			tmpOri.val(ori);
 			tmpDir.val(dir);
 			dist = obj.primitive(tmpOri, tmpDir, lastId);
+			//System.out.println(dist);
 			if (dist <= 0.)
 				continue;
 			if (near == null || min > dist) {
@@ -49,9 +50,9 @@ public class BasicLauncher extends ALauncher {
 			dir.scal(-1);
 			shader.getColor(ori, dir, intersection, normal, near, objects, color, ret);
 			ret.mult(near.direct);
-			if (near.mirroir != 0. || near.refraction != 0.) {
+			if (near.miroir != 0. || near.refraction != 0.) {
 				Color cTmp = new Color();		
-				if (near.mirroir != 0.) {
+				if (near.miroir != 0.) {
 					if (rebond != env.rebond) {
 						tmpOri.val(intersection);
 						tmpDir.val(normal).scal(normal.mult(dir) * 2).sub(dir);
@@ -59,7 +60,7 @@ public class BasicLauncher extends ALauncher {
 					}
 					else
 						cTmp.val(0,0,0);
-					cTmp.mult(near.mirroir);
+					cTmp.mult(near.miroir);
 					ret.add(cTmp);
 				}
 				
@@ -74,11 +75,14 @@ public class BasicLauncher extends ALauncher {
 							n2 = near.indRefra;
 						}
 						else { 
-							n1 = milieu.lastElement().indRefra;
-							if (milieu.lastElement().getId() != near.getId())
+							//n1 = milieu.lastElement().indRefra;
+							n1 = near.indRefra;
+							n2 = env.refra;
+							/*if (milieu.lastElement().getId() != near.getId())
 								n2 = near.indRefra;
 							else
 								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : env.refra);
+							*/
 						}
 						double cos1 = normal.mult(dir);
 						double cos2 = 1 - Math.pow(n1 / n2, 2) * (1 - cos1 * cos1);
@@ -87,7 +91,7 @@ public class BasicLauncher extends ALauncher {
 							getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);
 						}
 						else {
-							if (milieu.empty() || milieu.lastElement().getId() != near.getId())
+							if (milieu.empty())// || milieu.lastElement().getId() != near.getId())
 								milieu.push(near);
 							else
 								milieu.pop();

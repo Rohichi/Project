@@ -41,11 +41,16 @@ public class Solver {
 		}
 		else if (delta == 0.){
 			delta = b / (3*a);
-			a = (3*q)/p - delta;
-			b =-(3*q)/(2*p) - delta;
-			if (a != b)
-				ret.add(Double.valueOf(b));
-			ret.add(Double.valueOf(a));
+			if (p != 0)
+			{
+				a = (3*q)/p - delta;
+				b =-(3*q)/(2*p) - delta;
+				if (a != b)
+					ret.add(Double.valueOf(b));
+				ret.add(Double.valueOf(a));
+			}
+			else
+				ret.add(Double.valueOf(Math.cbrt(-q)));
 		}
 		else{
 			delta = Math.acos((3 * q * Math.sqrt(-3/p))/ (2 * p));
@@ -59,7 +64,6 @@ public class Solver {
 	}
 	
 	
-	//TODO Test !
 	static public Collection<Double> solve(double a, double b, double c, double d, double e) {
 		if (a == 0.)
 			return solve(b,c,d,e);
@@ -76,7 +80,7 @@ public class Solver {
 		a = 1;
 		double p = (-3*b*b / 8 + c); 
 		double q =  Math.pow(b / 2, 3) - b*c/2 + d;
-		double r = -3 * Math.pow(b / 4, 2) + c * Math.pow(b/4, 2) - b*d/4 + e; 
+		double r = -3 * Math.pow(b / 4, 4) + c * Math.pow(b/4, 2) - b*d/4 + e;
 		double y0 = 0;
 		Collection<Double> subret = solve(8, -4*p, -8*r,4*r*p-q*q);
 		for(Double x0 : subret) {
@@ -89,6 +93,10 @@ public class Solver {
 		double b0 = (a0 == 0 ? y0*y0-r : -q/(2*a0));
 		ret = solve(1, a0, y0 + b0);
 		ret.addAll(solve(1, -a0, y0 - b0));
-		return ret;
+		subret.clear();
+		for (Double double1 : ret) {
+			subret.add(Double.sum(double1.doubleValue(), - b/4));
+		}
+		return subret;
 	}
 }

@@ -11,12 +11,16 @@ public class Util {
 
 	public static double near(Collection<Double> list, boolean same){
 		if (same) {
-			boolean flag = false;
+			double last = -1;
+			double tmp;
 			for (Double d : list) {
-				if (flag)
+				tmp = Math.abs(d.doubleValue());
+				if (last == -1)
+					last = tmp;
+				else if (tmp < last)
+					last = tmp;
+				else
 					return d.doubleValue();
-				if (d.doubleValue() > 0)
-					flag = true;
 			}
 		}
 		else {

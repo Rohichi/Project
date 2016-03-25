@@ -25,7 +25,7 @@ public abstract class AObj {
 	public double rugosite;
 	
 	public double direct;
-	public double mirroir;
+	public double miroir;
 	public double refraction;
 	public double indRefra;
 	
@@ -45,7 +45,7 @@ public abstract class AObj {
 		metal = 0;
 
 		direct = 1;
-		mirroir = 0;
+		miroir = 0;
 		refraction = 0;
 		indRefra = 1;
 	}
@@ -72,7 +72,7 @@ public abstract class AObj {
 			coefDiffuse = Color.getCoef(1, 1, 1);
 		if (coefSpeculaire == null)
 			coefSpeculaire = Color.getCoef(1, 1, 1);
-		direct = 1 - mirroir - refraction;
+		direct = 1 - miroir - refraction;
 	}
 	
 	public void color(Vecteur pos, Color c) {

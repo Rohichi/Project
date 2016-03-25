@@ -212,7 +212,7 @@ public class Vecteur {
 
 	public Vecteur checkNormal(Vecteur ori) {
 		double tmp = mult(ori);
-		if (tmp >= 0.)
+		if (tmp > 0.)
 			return scal(-1).normal();
 		return normal();
 	}

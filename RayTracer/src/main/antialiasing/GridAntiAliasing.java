@@ -20,6 +20,7 @@ public class GridAntiAliasing extends AAntialiasing{
 	public void init() {
 		this.camera = launcher.getCamera();
 		subcamera = new BasicCamera();
+		subcamera.init(gridSide, gridSide);
 		grid = new Color[gridSide][gridSide];
 		for(int i = 0; i < gridSide; i++) {
 			for(int j = 0; j < gridSide; j++) {
@@ -60,8 +61,8 @@ public class GridAntiAliasing extends AAntialiasing{
 	@Override
 	public void launch(int x, int y, Color c) {
 		camera.getRay(x, y, ray);
-		subcamera.getU().val(camera.getU()).scal(1./gridSide);
-		subcamera.getV().val(camera.getV()).scal(1./gridSide);
+		subcamera.setU(camera.getU().scalClone(1./gridSide));
+		subcamera.setV(camera.getV().scalClone(1./gridSide));
 		subcamera.pos.val(camera.pos);
 		ray.dir.val(subcamera.getU()).add(subcamera.getV()).scal(-1/2);
 		subcamera.setOri(ray.ori.add(ray.dir));

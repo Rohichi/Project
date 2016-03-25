@@ -58,5 +58,15 @@ public class BasicCamera extends ACamera {
 	public void setOri(Vecteur ori) {
 		this.ori = ori;
 	}
+
+	@Override
+	public void setU(Vecteur u) {
+		this.u = u;
+	}
+
+	@Override
+	public void setV(Vecteur v) {
+		this.v = v;
+	}
 	
 }

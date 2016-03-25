@@ -8,10 +8,10 @@ import main.util.Solver;
 import main.util.Util;
 
 public class Cylindre extends AObj{
-	public double r;
+	public double rayon;
 	
 	public Cylindre() {
-		r = 1.;
+		rayon = 1.;
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class Cylindre extends AObj{
 		double dy = dir.getY();
 		double ox = ori.getX();
 		double oy = ori.getY();
-		Collection<Double> sol = Solver.solve(dx * dx + dy * dy, 2*(ox*dx + oy*dy), ox*ox + oy*oy - r*r);
+		Collection<Double> sol = Solver.solve(dx * dx + dy * dy, 2*(ox*dx + oy*dy), ox*ox + oy*oy - rayon*rayon);
 		if (sol == null || sol.size() < 2)
 			return (-1);
 		return Util.near(sol, lastId == this.id);
@@ -37,7 +37,7 @@ public class Cylindre extends AObj{
 	@Override
 	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
 		pos.transformation(center, rotation);
-		pos.setY(0);
+		pos.setZ(0);
 		pos.reverseRotation(rotation);
 		ret.val(pos).checkNormal(dir);
 	}
