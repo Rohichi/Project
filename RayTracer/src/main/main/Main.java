@@ -1,10 +1,15 @@
 package main.main;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 
 import main.execption.JsonElementMissing;
 import main.rendu.Image;
@@ -43,27 +48,50 @@ public class Main {
 
 		//Util.photo_expose(Env.image, width, height);
 			*/
+		JFileChooser fc = new JFileChooser(new File("."));
+		fc.showOpenDialog(null);
 		File file;
-		/*if (args.length > 2)
-			file = new File(args[1]);
-		else
-			file = new File("exemples/exemple.json");
-		*/
-		file = new File("test.json");
+		file = fc.getSelectedFile();
 		try{
+
 			RayTracer raytracer = new RayTracer(file);
-			double duree = raytracer.start();
-			System.out.println(duree + "s");
-			Image img = raytracer.getImage();
+			
 			JFrame fenetre = new JFrame();
 			fenetre.setTitle("RayTracer");
-			fenetre.setSize(raytracer.env.width, raytracer.env.height);
+			fenetre.setSize(300, 40);
 			fenetre.setLocationRelativeTo(null);
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			fenetre.setResizable(false);
+			JProgressBar bar = new JProgressBar();
+			bar.setMaximum(raytracer.env.height * raytracer.env.width);
+			bar.setMinimum(0);
+			bar.setStringPainted(true);
+			fenetre.add(bar);
+			fenetre.repaint();
+			fenetre.setVisible(true);
+			
+			double duree = raytracer.start(bar);
+			System.out.println("L'image a été générée en " + duree + "s.");
+			Image img = raytracer.getImage();
+			fenetre.remove(bar);
+			fenetre.setSize(raytracer.env.width, raytracer.env.height);
+			fenetre.setLocationRelativeTo(null);
 			fenetre.add(img);
 			fenetre.repaint();
 			fenetre.setVisible(true);
+			BufferedImage bi = new BufferedImage(raytracer.env.width, raytracer.env.height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g2 = bi.createGraphics();
+			img.print(g2);
+			if (raytracer.env.file != null) {
+				file = new File("images" + File.separator + raytracer.env.file + ".bmp");
+				int i = 0;
+				while (file.exists()) {
+					i++;
+					file = new File("images" + File.separator + raytracer.env.file + "(" + i + ").bmp");
+				}
+				System.out.println(file.getAbsolutePath());
+				ImageIO.write(bi, "bmp", file);
+			}
 		} catch (IOException e) {
 			System.err.println("File out error =/");
 			e.printStackTrace();

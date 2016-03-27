@@ -1,5 +1,7 @@
 package main.indice;
 
+import javax.swing.JProgressBar;
+
 import main.util.Pair;
 
 public class BasicIndice extends AIndice{
@@ -8,13 +10,17 @@ public class BasicIndice extends AIndice{
 	int height;
 	int width;
 	int last;
+	int value;
+	JProgressBar bar;
 	
-	public BasicIndice(int width, int height) {
+	public BasicIndice(int width, int height, JProgressBar bar) {
 		i = 0;
 		j = 0;
 		last = -1;
 		this.height = height;
 		this.width = width;
+		this.bar = bar;
+		value = 0;
 	}
 	
 	@Override
@@ -25,7 +31,6 @@ public class BasicIndice extends AIndice{
 			int tmp = (i + j * height) * 100 / (height * width);
 			if (tmp > last) {
 				last = tmp;
-				//System.out.println(last);
 			}
 			i++;
 			if (i == height) {
@@ -34,10 +39,10 @@ public class BasicIndice extends AIndice{
 				if (j == width) {
 					i = -1;
 					j = -1;
-					//System.out.println(100);
 				}
 			}
 		}
+		bar.setValue(++value);
 	}
 
 	@Override

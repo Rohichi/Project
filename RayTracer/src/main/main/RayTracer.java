@@ -1,7 +1,5 @@
 package main.main;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.imageio.ImageIO;
+import javax.swing.JProgressBar;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -97,8 +95,8 @@ public class RayTracer {
 		}
 	}
 	
-	public double start() throws InterruptedException, IOException{
-		AIndice indice = new BasicIndice(env.width, env.height);
+	public double start(JProgressBar bar) throws InterruptedException, IOException{
+		AIndice indice = new BasicIndice(env.width, env.height, bar);
 		ExecutorService execute = Executors.newFixedThreadPool(env.nbthread);
 		Collection<Callable<Integer>> tasks = new ArrayList<Callable<Integer>>(env.nbthread);
 		long start = System.nanoTime();
@@ -111,18 +109,6 @@ public class RayTracer {
 		
 		//Util.photo_expose(env.image, env.width, env.height);
 		image = new Image(env.image, env.width, env.height);
-		BufferedImage bi = new BufferedImage(env.width, env.height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = bi.createGraphics();
-		image.printAll(g2);
-		if (env.file != null) {
-			File file = new File("images" + File.separator + env.file + ".bmp");
-			int i = 0;
-			while (file.exists()) {
-				i++;
-				file = new File("images" + File.separator + env.file + "(" + i + ").bmp");
-			}
-			ImageIO.write(bi, "bmp", file);
-		}
 		return (end - start)/1E9;
 	}
 	

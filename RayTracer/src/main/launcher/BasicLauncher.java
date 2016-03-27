@@ -42,12 +42,12 @@ public class BasicLauncher extends ALauncher {
 			ret.id = -1;
 		}
 		else {
-			Vecteur intersection = dir.scalClone(min).add(ori);
+			Vecteur intersection = dir.multClone(min).add(ori);
 			Vecteur normal = new Vecteur();
 			Color color = new Color();
 			near.color(tmpOri.val(intersection), color);
 			near.normal(tmpOri.val(intersection), dir, near.getId(), normal);
-			dir.scal(-1);
+			dir.mult(-1);
 			shader.getColor(ori, dir, intersection, normal, near, objects, color, ret);
 			ret.mult(near.direct);
 			if (near.miroir != 0. || near.refraction != 0.) {
@@ -55,7 +55,7 @@ public class BasicLauncher extends ALauncher {
 				if (near.miroir != 0.) {
 					if (rebond != env.rebond) {
 						tmpOri.val(intersection);
-						tmpDir.val(normal).scal(normal.mult(dir) * 2).sub(dir);
+						tmpDir.val(normal).mult(normal.scal(dir) * 2).sub(dir);
 						getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);
 					}
 					else
@@ -84,10 +84,10 @@ public class BasicLauncher extends ALauncher {
 								n2 = (milieu.size() > 1 ? milieu.elementAt(milieu.size() - 2).indRefra : env.refra);
 							*/
 						}
-						double cos1 = normal.mult(dir);
+						double cos1 = normal.scal(dir);
 						double cos2 = 1 - Math.pow(n1 / n2, 2) * (1 - cos1 * cos1);
 						if (cos2 < 0.) {
-							tmpDir.val(normal).scal(2 * cos1).sub(dir).normal();
+							tmpDir.val(normal).mult(2 * cos1).sub(dir).normal();
 							getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);
 						}
 						else {
@@ -96,8 +96,8 @@ public class BasicLauncher extends ALauncher {
 							else
 								milieu.pop();
 							cos2 = Math.sqrt(cos2);
-							tmpDir.val(normal).scal(n1 * cos1 / n2 - cos2);
-							dir.scal(n1 / n2);
+							tmpDir.val(normal).mult(n1 * cos1 / n2 - cos2);
+							dir.mult(n1 / n2);
 							tmpDir.sub(dir);
 							getColor(tmpOri, tmpDir, cTmp, near.getId(), rebond + 1);	
 						}					

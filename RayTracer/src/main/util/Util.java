@@ -33,7 +33,7 @@ public class Util {
 	}
 	
 	public static boolean checkVisibility(int current, List<AObj> objects, Vecteur vLight, double dist, Vecteur intersection, Vecteur normal, Vecteur oriTmp, Vecteur dirTmp) {
-		if (normal.mult(vLight) < 0.)
+		if (normal.scal(vLight) < 0.)
 			return false;
 		double distTmp;
 		for (AObj object : objects) {

@@ -29,9 +29,23 @@ public class Cylindre extends AObj{
 	}
 
 	@Override
-	public void getTextureColor(Vecteur pos, Color c) {
-		// TODO Auto-generated method stub
+	public void getTextureColor(Vecteur pos, Color ret) {
+		pos.transformation(center, rotation);
+		double x;
+		double y = pos.getZ();
+		Vecteur c = new Vecteur(0, 1, 0);
+		pos.setZ(0);
+		pos.normal();
 		
+		if (pos.getX() >= 0) {
+			x = Math.acos(c.scal(pos));
+		}
+		else {
+			c.setY(-1);
+			x = Math.acos(c.scal(pos)) + Math.PI;
+		}
+		if (texture.getColor(rayon * x, 2 * rayon * Math.PI, y, -1, ret) == -1)
+			ret.val(color);
 	}
 
 	@Override

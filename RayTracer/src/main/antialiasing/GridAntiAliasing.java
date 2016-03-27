@@ -61,10 +61,10 @@ public class GridAntiAliasing extends AAntialiasing{
 	@Override
 	public void launch(int x, int y, Color c) {
 		camera.getRay(x, y, ray);
-		subcamera.setU(camera.getU().scalClone(1./gridSide));
-		subcamera.setV(camera.getV().scalClone(1./gridSide));
+		subcamera.setU(camera.getU().multClone(1./gridSide));
+		subcamera.setV(camera.getV().multClone(1./gridSide));
 		subcamera.pos.val(camera.pos);
-		ray.dir.val(subcamera.getU()).add(subcamera.getV()).scal(-1/2);
+		ray.dir.val(subcamera.getU()).add(subcamera.getV()).mult(-1/2);
 		subcamera.setOri(ray.ori.add(ray.dir));
 		launcher.setCamera(subcamera);
 		for(int i = 0; i < gridSide; i++) {

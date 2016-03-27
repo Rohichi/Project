@@ -28,19 +28,19 @@ public class Triangle extends AObj{
 		if (lastId == this.id)
 			return -1;
 		Vecteur p = dir.crossmultClone(e2);
-		double det = e1.mult(p);
+		double det = e1.scal(p);
 		if (det > -EPSILON && det < EPSILON)
 			return -1.;
 		det = 1. / det;
 		Vecteur t = ori.subClone(center);
-		double u = t.mult(p) * det;
+		double u = t.scal(p) * det;
 		if (u < 0. || u > 1.)
 			return -1.;
 		Vecteur q = t.crossmultClone(e1);
-		double v = dir.mult(q) * det;
+		double v = dir.scal(q) * det;
 		if (v < 0. || u + v > 1.)
 			return -1.;
-		return e2.mult(q) * det;
+		return e2.scal(q) * det;
 	}
 	
 
@@ -54,14 +54,14 @@ public class Triangle extends AObj{
 		
 		Vecteur tmp = new Vecteur();
 		pos.transformation(center, null);
-		double u = e1.mult(pos);
-		double v = e2.mult(pos);
+		double u = e1.scal(pos);
+		double v = e2.scal(pos);
 		if (1 - u - v < 0)
 			System.out.println(u + " " + v);
-		ret.val(an).scal(1. - u - v);
-		tmp.val(bn).scal(u);
+		ret.val(an).mult(1. - u - v);
+		tmp.val(bn).mult(u);
 		ret.add(tmp);
-		tmp.val(cn).scal(v);
+		tmp.val(cn).mult(v);
 		ret.add(tmp);
 		ret.checkNormal(dir);
 		//ret.val(e1).crossmult(e2).checkNormal(dir);

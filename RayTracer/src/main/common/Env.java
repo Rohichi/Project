@@ -12,10 +12,10 @@ public class Env {
 	public Env() {
 		width = 800;
 		height = 600;
-		nbthread = 1;
+		nbthread = Runtime.getRuntime().availableProcessors();
 		file = null;
 		rebond = 1;
-		refra = 1.;
+		refra = 1.00027;
 	}
 	
 	public void init(){

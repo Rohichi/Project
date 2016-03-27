@@ -61,7 +61,7 @@ public abstract class AObj {
 		if (rotation == null)
 			rotation = new Vecteur(0, 0, 0);
 		else 
-			rotation.scal(Math.PI / 180.);
+			rotation.mult(Math.PI / 180.);
 		if (color == null)
 			color = new Color(255, 255, 255);
 		else
@@ -84,6 +84,6 @@ public abstract class AObj {
 	
 
 	public abstract double primitive(Vecteur ori, Vecteur dir, int lastId);
-	public abstract void getTextureColor(Vecteur pos, Color c);
+	public abstract void getTextureColor(Vecteur pos, Color ret);
 	public abstract void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret);
 }

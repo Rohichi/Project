@@ -31,17 +31,17 @@ public class BasicCamera extends ACamera {
 		up.normal();
 		h = 2. * distance * Math.tan(Math.PI * fovy / 360);
 		l = h * (width / height);
-		u = dir.crossmultClone(up).normal().scal(l / width);
-		v = dir.crossmultClone(u).normal().scal(h / height);
-		ori = dir.scal(distance).add(pos);
-		ori.add(u.scalClone(-width / 2.));
-		ori.add(v.scalClone(-height / 2.));
+		u = dir.crossmultClone(up).normal().mult(l / width);
+		v = dir.crossmultClone(u).normal().mult(h / height);
+		ori = dir.mult(distance).add(pos);
+		ori.add(u.multClone(-width / 2.));
+		ori.add(v.multClone(-height / 2.));
 	}
 	
 		
 	@Override
 	public void getRay(int x, int y, Ray ray) {
-		ray.ori.val(v).scal(x).add(ray.dir.val(u).scal(y)).add(ori);
+		ray.ori.val(v).mult(x).add(ray.dir.val(u).mult(y)).add(ori);
 		ray.dir.val(ray.ori).sub(pos).normal();
 	}
 

@@ -1,11 +1,9 @@
 {
     "env": {
-        "width": 800,
-        "height": 600,
-        "nbthread": 1,
+        "width": 1024,
+        "height": 768,
         "file":"out",
-        "rebond":10,
-        "file":out
+        "rebond":10
     },
     "camera" : {
     	"type":"BasicCamera",
@@ -26,6 +24,10 @@
     		},
     	"distance" : 20,
     	"fovy" : 60	
+ 	},
+ 	"antialiasing": {
+ 		"type":"GridAntiAliasing",
+ 		"gridSide":1
  	},
  	"listLights": [
  		{
@@ -72,6 +74,203 @@
  		}
  	},
     "listObjs" : [
+        	{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":0,
+    			"z":-20
+    		},
+    		"color": {
+    			"red":0,
+    			"green":255,
+    			"blue":0
+    		},
+    		"metal":0.1,
+    		"rugosite":1024,
+    		"miroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"marble.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		}
+    	},
+    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":50,
+    			"z":0
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"brick.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		},
+    		"rotation": {
+    			"x":90,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+    	    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":60,
+    			"y":0,
+    			"z":0
+    		},
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":0
+    		},
+    		"metal":0.1,
+    		"rugosite":1024,
+    		"miroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"marble.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		},
+    		"rotation": {
+    			"x":0,
+    			"y":90,
+    			"z":0
+    		}
+    	},
+    	{
+    		"type":"Plan",
+    		"center": {
+    			"x":-60,
+    			"y":0,
+    			"z":0
+    		},
+    		"color": {
+    			"red":0,
+    			"green":255,
+    			"blue":0
+    		},
+    		"metal":0.1,
+    		"rugosite":1024,
+    		"miroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"marble.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		},
+    		"rotation": {
+    			"x":0,
+    			"y":90,
+    			"z":0
+    		}
+    	},    	
+		{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":0,
+    			"z":60
+    		},
+    		"color": {
+    			"red":0,
+    			"green":0,
+    			"blue":255
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+		{
+    		"type":"Plan",
+    		"center": {
+    			"x":0,
+    			"y":-100,
+    			"z":0
+    		},
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":255
+    		},
+    		"metal":0,
+    		"rugosite":2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"brick.bmp",
+    			"sizeX":25,
+    			"sizeY":25    		
+    		},
+    		"rotation": {
+    			"x":90,
+    			"y":0,
+    			"z":0
+    		}
+    	},
+		{
+    		"type":"Sphere",
+    		"center": {
+    			"x":-35,
+    			"y":-10,
+    			"z":-10
+    		},
+    		"rayon":10,
+    		"color": {
+    			"red":255,
+    			"green":0,
+    			"blue":255
+    		},
+    		"miroir":0.3,
+    		"refraction":0.3,
+    		"indRefra":1.33,
+    		"metal":0.7,
+    		"rugosite":2048,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":90
+    		},
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"sponge.jpg" 		
+    		}
+    	},
+    	{
+    		"type":"Sphere",
+    		"center": {
+    			"x":40,
+    			"y":-10,
+    			"z":-10
+    		},
+    		"rayon":10,
+    		"color": {
+    			"red":128,
+    			"green":0,
+    			"blue":128
+    		},
+    		"metal":1,
+    		"rugosite":256,
+    		"rotation": {
+    			"x":0,
+    			"y":0,
+    			"z":90
+    		},
+    		"miroir":0.2,
+    		"texture":{
+    			"type":"FileTexture",
+    			"filename":"billard.bmp" 		
+    		}
+    	},
 		{
     		"type":"Tore",
     		"center": {
@@ -80,22 +279,39 @@
     			"z":0
     		},
     		"r":4,
-    		"R":20,
+    		"R":10,
     		"color": {
     			"red":255,
     			"green":0,
     			"blue":255
     		},
-    		"metal":0.2,
-    		"rugosite":2048,
+	   		"refraction":1,
+    		"indRefra":1.33,
     		"rotation": {
     			"x":0,
     			"y":0,
     			"z":0
     		},
     		"rotation": {
+    			"x":45,
+    			"y":45,
+    			"z":0
+    		}
+    	},
+    	{
+    		"type":"Cone",
+    		 "center": {
     			"x":0,
-    			"y":0,
+    			"y":2,
+    			"z":0
+    		},
+    		"miroir":1,
+    		"rugosite":2048,
+    		"metal":1,
+    		"alpha":25,
+    		"rotation": {
+    			"x":45,
+    			"y":45,
     			"z":0
     		}
     	}

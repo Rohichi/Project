@@ -107,14 +107,14 @@ public class Vecteur {
 		return new Vecteur(x * v.x, y * v.y, z * v.z);
 	}	
 	
-	public Vecteur scal(double k) {
+	public Vecteur mult(double k) {
 		x *= k;
 		y *= k;
 		z *= k;
 		return this;
 	}
 	
-	public Vecteur scalClone(double k) {
+	public Vecteur multClone(double k) {
 		return new Vecteur(x * k, y * k, z * k);
 	}	
 	
@@ -131,7 +131,7 @@ public class Vecteur {
 		return new Vecteur(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 	}	
 	
-	public double mult(Vecteur v) {
+	public double scal(Vecteur v) {
 		return x * v.x + y * v.y + z * v.z;
 	}
 	
@@ -143,15 +143,15 @@ public class Vecteur {
 	}
 	
 	public double norme() {
-		return Math.sqrt(mult(this));
+		return Math.sqrt(scal(this));
 	}
 	
 	public Vecteur normal() {
-		return scal(1.0 / norme());
+		return mult(1.0 / norme());
 	}
 	
 	public Vecteur normalClone() {
-		return scalClone(1.0 / norme());
+		return multClone(1.0 / norme());
 	}
 	
 	public Vecteur rotx(double a) {
@@ -211,9 +211,9 @@ public class Vecteur {
 	}
 
 	public Vecteur checkNormal(Vecteur ori) {
-		double tmp = mult(ori);
+		double tmp = scal(ori);
 		if (tmp > 0.)
-			return scal(-1).normal();
+			return mult(-1).normal();
 		return normal();
 	}
 }

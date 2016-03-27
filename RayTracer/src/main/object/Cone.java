@@ -40,9 +40,24 @@ public class Cone extends AObj{
 	}
 
 	@Override
-	public void getTextureColor(Vecteur pos, Color c) {
+	public void getTextureColor(Vecteur pos, Color ret) {
 		pos.transformation(center, rotation);
+		double x;
+		double y = pos.norme();
+		Vecteur c = new Vecteur(0, 1, 0);
+		pos.setZ(0);
+		double rayon = pos.norme();
+		pos.normal();
 		
+		if (pos.getX() >= 0) {
+			x = Math.acos(c.scal(pos));
+		}
+		else {
+			c.setY(-1);
+			x = Math.acos(c.scal(pos)) + Math.PI;
+		}
+		if (texture.getColor(rayon * x, 2 * rayon * Math.PI, y, -1, ret) == -1)
+			ret.val(color);
 	}
 
 	@Override

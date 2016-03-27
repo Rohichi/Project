@@ -44,11 +44,11 @@ public class BlinnPhongShader extends AShader {
 	}
 	
 	public void diffuse(Color k, Vecteur normal, Color ret){
-		ret.val(k).mult(normal.mult(vLight));
+		ret.val(k).mult(normal.scal(vLight));
 	}
 	
 	public void speculaire(Color k, Vecteur normal, double rugosite, Color ret){
-		ret.val(k).mult(Math.pow(normal.mult(h), rugosite));
+		ret.val(k).mult(Math.pow(normal.scal(h), rugosite));
 	}
 	
 	@Override
