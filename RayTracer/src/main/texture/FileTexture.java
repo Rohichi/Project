@@ -28,7 +28,7 @@ public class FileTexture extends ATexture{
 			extendX = false;
 			extendY = false;
 		}
-		else if (object == "main.object.Sphere") {
+		else if (object == "main.object.Sphere" || object == "main.object.Tore") {
 			repeatX = 1;
 			repeatY = 1;
 			extendX = true;
@@ -49,11 +49,12 @@ public class FileTexture extends ATexture{
 	}	
 	
 	
+	@Override
 	public void init() throws IOException{
 		img = ImageIO.read(new File("textures" +  File.separator + filename));
 	}
 	
-	private int getInd(double x, double maxx, boolean extend, double size, int repeat, int nbpix) {
+	private static int getInd(double x, double maxx, boolean extend, double size, int repeat, int nbpix) {
 		if (maxx != -1 && extend)
 			size = maxx / repeat;
 		double	tmp;
@@ -73,6 +74,7 @@ public class FileTexture extends ATexture{
 	}
 	
 	
+	@Override
 	public int getColor(double x, double maxx, double y, double maxy, Color c)
 	{
 		int i = getInd(y, maxy, extendY, sizeY, repeatY, img.getHeight());

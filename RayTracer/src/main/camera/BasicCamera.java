@@ -20,6 +20,7 @@ public class BasicCamera extends ACamera {
 		fovy = 60;
 	}
 	
+	@Override
 	public void init(double width, double height) {
 		pos = (pos == null ? new Vecteur(0, 0, 0) : pos);
 		dir = (dir == null ? new Vecteur(1, 0, 0) : dir);

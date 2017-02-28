@@ -24,9 +24,9 @@ public class BasicIndice extends AIndice{
 	}
 	
 	@Override
-	synchronized public void getCoord(Pair pair) {
-		pair.x = i;
-		pair.y = j;
+	synchronized public void getCoord(Pair<Integer, Integer> pair) {
+		pair.setA(Integer.valueOf(i));
+		pair.setB(Integer.valueOf(j));
 		if (i != -1) {
 			int tmp = (i + j * height) * 100 / (height * width);
 			if (tmp > last) {

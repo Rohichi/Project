@@ -30,6 +30,7 @@ import main.rendu.Image;
 import main.shader.AShader;
 import main.shader.NoShader;
 import main.util.Parser;
+import main.util.Util;
 
 public class RayTracer {
 	Env env;

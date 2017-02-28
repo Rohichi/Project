@@ -1,12 +1,11 @@
 package main.object;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.TreeSet;
 
 import main.common.Color;
 import main.common.Vecteur;
 import main.util.Solver;
-import main.util.Util;
 
 public class Cone extends AObj{
 	public double alpha;
@@ -15,13 +14,14 @@ public class Cone extends AObj{
 		alpha = 45;
 	}
 	
+	@Override
 	public void init() throws NumberFormatException, IOException {
 		super.init();
 		alpha = alpha * Math.PI / 180.;
 	}
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
+	public TreeSet<Double> _primitive(Vecteur ori, Vecteur dir) {
 		ori.transformation(center, rotation);
 		dir.transformation(null, rotation);
 		double t = Math.pow(Math.tan(alpha), 2);
@@ -31,12 +31,11 @@ public class Cone extends AObj{
 		double ox = ori.getX();
 		double oy = ori.getY();
 		double oz = ori.getZ();
-		Collection<Double> sol = Solver.solve(dx * dx + dy * dy - dz * dz * t,
+		return Solver.solve(dx * dx + dy * dy - dz * dz * t,
 											  2*(ox * dx + oy * dy - oz * dz * t),
 											  ox*ox + oy*oy - oz * oz * t);
-		if (sol == null || sol.size() < 2)
-			return (-1);
-		return Util.near(sol, lastId == this.id);
+		/*if (sol.size() < 2)
+			return (-1);*/
 	}
 
 	@Override
@@ -61,10 +60,10 @@ public class Cone extends AObj{
 	}
 
 	@Override
-	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
+	public void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
 		pos.transformation(center, rotation);
 		pos.setZ(-pos.getZ() * Math.pow(Math.tan(alpha), 2));
 		pos.reverseRotation(rotation);
-		ret.val(pos).checkNormal(dir);
+		ret.val(pos);
 	}
 }

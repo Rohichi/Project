@@ -6,6 +6,7 @@ import main.common.Color;
 import main.common.Ray;
 import main.common.Vecteur;
 import main.object.AObj;
+import main.util.Pair;
 
 public class BasicLauncher extends ALauncher {
 	private Ray	ray;
@@ -17,32 +18,17 @@ public class BasicLauncher extends ALauncher {
 	}
 	
 	public void getColor(Vecteur ori, Vecteur dir, Color ret, int lastId, int rebond) {
-		double	dist;
-		double	min;
-		AObj	near;
-		Vecteur tmpOri = new Vecteur();
-		Vecteur tmpDir = new Vecteur();
-		
-		near = null;
-		min = -1;
-		for (AObj obj : objects) {
-			tmpOri.val(ori);
-			tmpDir.val(dir);
-			dist = obj.primitive(tmpOri, tmpDir, lastId);
-			//System.out.println(dist);
-			if (dist <= 0.)
-				continue;
-			if (near == null || min > dist) {
-				min = dist;
-				near = obj;
-			}
-		}
+		Pair<AObj, Double> pair = AObj.getNear(ray, milieu, lastId);
+		AObj near = pair.getA();
+		Vecteur tmpOri;
+		Vecteur tmpDir;
+		double dist = pair.getB().doubleValue();
 		if (near == null) {
 			ret.val(shader.bg);
 			ret.id = -1;
 		}
 		else {
-			Vecteur intersection = dir.multClone(min).add(ori);
+			Vecteur intersection = dir.multClone(dist).add(ori);
 			Vecteur normal = new Vecteur();
 			Color color = new Color();
 			near.color(tmpOri.val(intersection), color);
@@ -64,7 +50,6 @@ public class BasicLauncher extends ALauncher {
 					ret.add(cTmp);
 				}
 				
-				//TODO problem refraction (peu être soucis de clipping)
 				if (near.refraction != 0.) {
 					if (rebond != env.rebond) {
 						tmpOri.val(intersection);

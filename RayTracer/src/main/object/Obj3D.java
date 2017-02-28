@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import main.common.Color;
 import main.common.Vecteur;
@@ -19,6 +20,7 @@ public class Obj3D extends AObj{
 		filename = null;
 	}
 
+	@Override
 	public void init() throws NumberFormatException, IOException {
 		super.init();
 		triangles = new ArrayList<AObj>();
@@ -61,16 +63,17 @@ public class Obj3D extends AObj{
 	}
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
-		double min = -1;
+	public TreeSet<Double> _primitive(Vecteur ori, Vecteur dir) {
+		return null;
+	/*	double min = -1;
 		double tmp;
 		for(AObj triangle : triangles) {
-			tmp = triangle.primitive(ori, dir, lastId);
+			tmp = triangle._primitive(ori, dir);
 			if (tmp > 0. && (min < 0. || tmp < min)) {
 				min = tmp;
 			}
 		}
-		return min;
+		return min;*/
 	}
 
 	@Override
@@ -80,10 +83,10 @@ public class Obj3D extends AObj{
 	}
 
 	@Override
-	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
+	public void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
 		for(AObj triangle : triangles) {
 			if (triangle.id == id) {
-				triangle.normal(pos, dir, id, ret);
+				triangle._normal(pos, dir, id, ret);
 				break ;
 			}
 		}

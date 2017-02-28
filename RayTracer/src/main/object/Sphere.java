@@ -1,11 +1,10 @@
 package main.object;
 
-import java.util.Collection;
+import java.util.TreeSet;
 
 import main.common.Color;
 import main.common.Vecteur;
 import main.util.Solver;
-import main.util.Util;
 
 public class Sphere extends AObj{
 	public double rayon;
@@ -16,12 +15,9 @@ public class Sphere extends AObj{
 	}
 
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
+	public TreeSet<Double> _primitive(Vecteur ori, Vecteur dir) {
 		ori.sub(center);
-		Collection<Double> sol = Solver.solve(dir.scal(dir), 2 * ori.scal(dir), ori.scal(ori) - rayon*rayon);
-		if (sol.size() < 2)
-			return -1;
-		return Util.near(sol, lastId == this.id);
+		return Solver.solve(dir.scal(dir), 2 * ori.scal(dir), ori.scal(ori) - rayon*rayon);
 	}
 
 
@@ -55,11 +51,14 @@ public class Sphere extends AObj{
 	}
 
 	@Override
-	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
+	public void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
 		pos.transformation(center, rotation);
 		pos.reverseRotation(rotation);
-		
 		ret.val(pos).checkNormal(dir);
 	}
 
 }
+
+
+
+

@@ -26,9 +26,9 @@ public class Parser {
 			 JsonElement elem = json.get(f.getName());
 			if (elem != null) {
 				if (f.getType() == Integer.TYPE)
-					f.set(obj, elem.getAsInt());
+					f.set(obj, Integer.valueOf(elem.getAsInt()));
 				else if (f.getType() == Double.TYPE){
-					f.set(obj, elem.getAsDouble());
+					f.set(obj, Double.valueOf(elem.getAsDouble()));
 				}
 				else if (f.getType() == String.class)
 					f.set(obj, elem.getAsString());

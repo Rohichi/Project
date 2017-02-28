@@ -1,5 +1,7 @@
 package main.object;
 
+import java.util.TreeSet;
+
 import main.common.Color;
 import main.common.Vecteur;
 
@@ -24,9 +26,13 @@ public class Triangle extends AObj{
 	}
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
-		if (lastId == this.id)
-			return -1;
+	public TreeSet<Double> _primitive(Vecteur ori, Vecteur dir) {
+		TreeSet<Double> ret = new TreeSet<Double>();
+		ret.add(prim(ori, dir));
+		return ret;
+	}
+
+	private double prim(Vecteur ori, Vecteur dir) {
 		Vecteur p = dir.crossmultClone(e2);
 		double det = e1.scal(p);
 		if (det > -EPSILON && det < EPSILON)
@@ -42,7 +48,6 @@ public class Triangle extends AObj{
 			return -1.;
 		return e2.scal(q) * det;
 	}
-	
 
 	@Override
 	public void getTextureColor(Vecteur pos, Color c) {
@@ -50,7 +55,7 @@ public class Triangle extends AObj{
 	}
 
 	@Override
-	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
+	public void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
 		
 		Vecteur tmp = new Vecteur();
 		pos.transformation(center, null);

@@ -1,11 +1,10 @@
 package main.object;
 
-import java.util.Collection;
+import java.util.TreeSet;
 
 import main.common.Color;
 import main.common.Vecteur;
 import main.util.Solver;
-import main.util.Util;
 
 public class Tore extends AObj{
 
@@ -13,7 +12,7 @@ public class Tore extends AObj{
 	public double r;
 	
 	@Override
-	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
+	public TreeSet<Double> _primitive(Vecteur ori, Vecteur dir) {
 		ori.transformation(center, rotation);
 		dir.transformation(null, rotation);
 		double dx = dir.getX();
@@ -22,11 +21,10 @@ public class Tore extends AObj{
 		double ox = ori.getX();
 		double oy = ori.getY();
 		double oz = ori.getZ();
-		Collection<Double> sol;
+		TreeSet<Double> sol;
 		double d2 = dx*dx + dy*dy + dz*dz;
 		double od = 2*ox*dx + 2*oy*dy + 2*oz*dz;
-		
-		if (dz == 0 && oz == 0)
+		if (dz == 0. && oz == 0.)
 		{
 			double c = ox * ox + oy * oy;
 			sol = Solver.solve(d2, od, c - Math.pow(R - r, 2));
@@ -42,47 +40,58 @@ public class Tore extends AObj{
 					-2*tmpR*(ox*dx + oy*dy) + 2 * or * od,
 					or * or - tmpR*(ox*ox + oy*oy));
 		}
-		if (sol == null)
-			return (-1);
-		return Util.near(sol, lastId == this.id);
+		return (sol);
 	}
 
 	@Override
 	public void getTextureColor(Vecteur pos, Color ret) {
 		pos.transformation(center, rotation);
-		/*double y;
-		double x;
+		
+	
 		Vecteur w = new Vecteur(pos);
 		w.setZ(0);
-		double rayon = w.norme();
-		Vecteur c = new Vecteur(0, 1, 0);
+		boolean out = w.norme() > R;
+		double rayonY = w.norme();
 		w.normal();
+		Vecteur c = new Vecteur(0, 1, 0);
+		double y;
 		if (w.getX() >= 0) {
-			x = Math.acos(c.scal(w));
-			
+			y = Math.acos(c.scal(w));
 		}
 		else {
 			c.setY(-1);
-			x = Math.acos(c.scal(w)) + Math.PI;
-			
+			y = Math.acos(c.scal(w)) + Math.PI;
 		}
-
-		
-		if (texture.getColor(x * rayon, 2 * rayon * Math.PI, y, 2 * Math.PI * r, ret) == -1)
-		*/
-			ret.val(color);
-		
+		c.val(pos);
+		c.setZ(0);
+		c.mult(R / c.norme());
+		double z = pos.getZ();
+		pos.sub(c);	
+		double x = Math.acos(c.scal(pos)/(R * r));
+		if (z > 0.)
+			x = 2 * Math.PI - x;
+		else if (z == 0)
+			x = (out ? 0 : Math.PI);
+		if (texture.getColor(x * r, 2 * r * Math.PI, y * rayonY, 2 * Math.PI * rayonY, ret) == -1)
+			ret.val(color);	
 	}
 
 	@Override
-	public void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {	
+	public Vecteur normal(Vecteur pos, Vecteur dir, int id) {	
 		pos.transformation(center, rotation);
 		Vecteur c = new Vecteur(pos);
 		c.setZ(0);
 		c.mult(R / c.norme());
 		pos.sub(c);
 		pos.reverseRotation(rotation);
-		ret.val(pos).checkNormal(dir);
+		Vecteur ret = new Vecteur(pos);
+		return ret.checkNormal(dir);
+	}
+
+	@Override
+	public void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

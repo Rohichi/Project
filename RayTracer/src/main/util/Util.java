@@ -8,7 +8,7 @@ import main.common.Vecteur;
 import main.object.AObj;
 
 public class Util {
-
+	
 	public static double near(Collection<Double> list, boolean same){
 		if (same) {
 			double last = -1;

@@ -2,10 +2,15 @@ package main.object;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.TreeSet;
 
 import main.common.Color;
+import main.common.Ray;
 import main.common.Vecteur;
 import main.texture.ATexture;
+import main.util.Pair;
+import main.util.Util;
 
 public abstract class AObj {
 
@@ -82,8 +87,39 @@ public abstract class AObj {
 			getTextureColor(pos, c);
 	}
 	
-
-	public abstract double primitive(Vecteur ori, Vecteur dir, int lastId);
+	public static Pair<AObj, Double> getNear(Ray ray, List<AObj> objects, int lastId) {
+		Vecteur ori = new Vecteur();
+		Vecteur dir = new Vecteur();
+		double dist;
+		double min = -1;
+		AObj near = null;
+		for (AObj obj : objects) {
+			ori.val(ray.ori);
+			dir.val(ray.dir);
+			dist = obj.primitive(ori, dir, lastId);
+			if (dist <= 0.)
+				continue;
+			if (near == null || min > dist) {
+				min = dist;
+				near = obj;
+			}
+		}
+		return new Pair<AObj, Double>(near, min);
+	}
+	
+	public double primitive(Vecteur ori, Vecteur dir, int lastId) {
+		TreeSet<Double> ret = this._primitive(ori, dir);
+		return Util.near(ret, lastId == this.id);
+	}
+	
+	public Vecteur normal(Vecteur pos, Vecteur dir, int id) {
+		Vecteur ret = new Vecteur();
+		this._normal(pos, dir, id, ret);
+		return ret.checkNormal(dir);
+	}
+	
+	
+	public abstract TreeSet<Double> _primitive(Vecteur ori, Vecteur dir);
 	public abstract void getTextureColor(Vecteur pos, Color ret);
-	public abstract void normal(Vecteur pos, Vecteur dir, int id, Vecteur ret);
+	public abstract void _normal(Vecteur pos, Vecteur dir, int id, Vecteur ret);
 }

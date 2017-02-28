@@ -10,14 +10,14 @@ import main.util.Pair;
 
 public class Thread implements Callable<Integer>{
 	Env env;
-	Pair coord;
+	Pair<Integer, Integer> coord;
 	ALauncher launcher;
 	Ray	ray;
 	int nb;
 	AIndice indice;
 	
 	public Thread (Env env, ALauncher launcher, AIndice indice, int nb) {
-		coord = new Pair();
+		coord = new Pair<Integer, Integer>();
 		ray = new Ray();
 		this.env = env;
 		this.launcher = launcher;
@@ -29,9 +29,12 @@ public class Thread implements Callable<Integer>{
 	@Override
 	public Integer call() {
 		try {
+			int x;
+			int y;
 			indice.getCoord(coord);
-			while (coord.x != -1) {
-				env.setImage(coord.x, coord.y, launcher.launch(coord.x, coord.y));
+			while ((x = coord.getA()) != -1) {
+				y = coord.getB();
+				env.setImage(x, y, launcher.launch(x, y));
 				indice.getCoord(coord);
 			}
 		} catch(Exception e) {

@@ -39,16 +39,11 @@ public class BorderIndice extends AIndice{
 	}
 	
 	@Override
-	synchronized public void getCoord(Pair pair) {
-		if (i == -1) {
-			pair.x = i;
-			pair.y = j;
-		}
-		else {
+	synchronized public void getCoord(Pair<Integer, Integer> pair) {
+		if (i == -1)
 			searchNext();
-			pair.x = i;
-			pair.y = j;	
-		}
+		pair.setA(Integer.valueOf(i));
+		pair.setB(Integer.valueOf(j));
 		if (i != -1) {
 			j++;
 			if (j == width) {

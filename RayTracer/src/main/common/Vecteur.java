@@ -157,8 +157,8 @@ public class Vecteur {
 	public Vecteur rotx(double a) {
 		double c = Math.cos(a);
 		double s = Math.sin(a);
-		double tmp = y * c + z * s;
-		z = c * z - s * y;
+		double tmp = y * c - z * s;
+		z = c * z + s * y;
 		y = tmp;
 		return this;
 	}
@@ -166,8 +166,8 @@ public class Vecteur {
 	public Vecteur roty(double a) {
 		double c = Math.cos(a);
 		double s = Math.sin(a);
-		double tmp = x * c + z * s;
-		z = c*z - s*x;
+		double tmp = x * c - z * s;
+		z = c * z + s * x;
 		x = tmp;
 		return this;
 	}

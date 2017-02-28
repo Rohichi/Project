@@ -48,6 +48,30 @@ public class Main {
 
 		//Util.photo_expose(Env.image, width, height);
 			*/
+	/*	
+		Vector<Photon> photons = new Vector<Photon>();
+		Photon tmp;
+		Random r = new Random();
+		
+		for (int i = 0;i < 10000000; i++) {
+			double x = -16 + (13 + 16) * r.nextDouble();
+			double y = -16 + (13 + 16) * r.nextDouble();
+			double z = -16 + (13 + 16) * r.nextDouble();
+			tmp = new Photon(new Vecteur(x, y, z), null, null);
+			photons.addElement(tmp);
+		}
+		long start = System.nanoTime();
+		Photon root = KDTree.balance(photons);
+		//KDTree.print(root, 0);
+		
+		
+		
+		
+		
+		long end = System.nanoTime();
+		System.out.println("Tri en : "+(end - start)/1E9 + "s");
+	*/	
+		
 		JFileChooser fc = new JFileChooser(new File("."));
 		fc.showOpenDialog(null);
 		File file;
@@ -57,7 +81,7 @@ public class Main {
 			RayTracer raytracer = new RayTracer(file);
 			
 			JFrame fenetre = new JFrame();
-			fenetre.setTitle("RayTracer");
+			fenetre.setTitle("RayTracer - " + file.getName());
 			fenetre.setSize(300, 40);
 			fenetre.setLocationRelativeTo(null);
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,6 +146,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }
